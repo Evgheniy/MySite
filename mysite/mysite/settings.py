@@ -11,6 +11,9 @@ https://docs.djangoproject.com/en/5.1/ref/settings/
 """
 
 from pathlib import Path
+from dotenv import load_dotenv
+import os
+load_dotenv()
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -20,7 +23,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/5.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-$k79k%zp-41fjr0_ejl+5668-=py-_g2!nhu(wamroo5k1^@b!'
+SECRET_KEY = str(os.getenv('SECRET_KEY'))
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -44,6 +47,7 @@ INSTALLED_APPS = [
     'django.contrib.sitemaps',
     'django.contrib.postgres',
     'accounts.apps.AccountsConfig',
+    'social_django',
 ]
 
 MIDDLEWARE = [
@@ -69,6 +73,8 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                'social_django.context_processors.backends',
+                'social_django.context_processors.login_redirect',
             ],
         },
     },
@@ -151,3 +157,17 @@ SESSION_COOKIE_AGE = 60 * 60 * 24 * 30
 
 MEDIA_ROOT = BASE_DIR/'media'
 MEDIA_URL = '/media/'
+
+AUTHENTICATION_BACKENDS = (
+    'social_core.backends.github.GithubOAuth2',
+    'social_core.backends.google.GoogleOAuth2',
+
+
+    'django.contrib.auth.backends.ModelBackend',
+)
+
+SOCIAL_AUTH_GITHUB_KEY = str(os.getenv('GITHUB_KEY'))
+SOCIAL_AUTH_GITHUB_SECRET = str(os.getenv('GITHUB_SECRET'))
+
+SOCIAL_AUTH_GOOGLE_OAUTH2_KEY = str(os.getenv('GOOGLE_KEY'))
+SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = str(os.getenv('GOOGLE_SECRET'))
