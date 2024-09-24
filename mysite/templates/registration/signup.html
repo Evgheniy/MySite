@@ -3,10 +3,13 @@
 {% block content %}
     <h2> Sign Up </h2>
     {% if form.errors %}
-        <div style="display: table; margin: 0 auto; text-align: left;">
-            {% for key, value in form.errors.items %}
-                <strong>{{ value }}</strong>
-            {% endfor %}
+        <div class="container d-flex align-items-center justify-content-center">
+            <div class="alert alert-warning alert-dismissible fade show w-50  d-block" role="alert">
+                {% for key, value in form.errors.items %}
+                    <strong>{{ value }}</strong>
+                {% endfor %}
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
         </div>
     {% endif %}
     <form method="post">
@@ -17,7 +20,7 @@
         <p>Last Name: {{ form.last_name }}</p>
         <p>Password: {{ form.password1 }}</p>
         <p>Confirm Password: {{ form.password2 }}</p>
-        <button type="submit">Sign Up</button>
+        <button type="submit" class="btn btn-primary btn-lg">Sign Up</button>
     </form>
     <a href="{% url 'login' %}">Have an account? Go to Log In</a>
 {% endblock %}
